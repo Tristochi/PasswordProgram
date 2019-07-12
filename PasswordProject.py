@@ -15,6 +15,10 @@ class MyApp(Frame):
 		self.pack()
 		self.create_widgets()
 		self.master.title("Password Book")
+		self.account_list = {"account": [], "username": [], "password": []}
+		self.accounts = []
+		self.users = []
+		self.passwords = []
 		
 		
 	def create_widgets(self):
@@ -31,26 +35,46 @@ class MyApp(Frame):
 	def add_new(self):
 		new_pw = Toplevel()
 		new_pw.title("Add Account: ")
-		
+		global title
+		global user
+		global pw
+		# Label and entry for account title
+		Label(new_pw, text="Account Title: ", fg = "black").grid(row=0, padx=5, pady =10)
+		title = Entry(new_pw)
+		title.grid(row=0, column=1, padx=10, pady=10)
+	
 		# Label and entry for Username
-		Label(new_pw, text="Username: ", fg="black").grid(row=0, padx = 5, pady = 10)
-		Entry(new_pw).grid(row=0, column=1, padx = 10, pady = 10)
+		Label(new_pw, text="Username: ", fg="black").grid(row=1, padx = 5, pady = 10)
+		user = Entry(new_pw)
+		user.grid(row=1, column=1, padx = 10, pady = 10)
 		
 		# Label and entry for Password
-		Label(new_pw, text="Password: ", fg="black").grid(row = 1, padx = 5, pady = 10)
-		Entry(new_pw).grid(row = 1, column = 1, padx = 10, pady = 10)
+		Label(new_pw, text="Password: ", fg="black").grid(row = 2, padx = 5, pady = 10)
+		pw = Entry(new_pw)
+		pw.grid(row = 2, column = 1, padx = 10, pady = 10)
 		
 		# Add button
-		Button(new_pw, text="Apply", fg="black", command=self.update).grid(row = 2, pady = 20)
+		Button(new_pw, text="Apply", fg="black", command=lambda: self.update(new_pw)).grid(row = 3, pady = 20)
 		
 		# Cancel button
-		Button(new_pw, text="Cancel", fg="black", command=lambda:new_pw.destroy()).grid(row=2, column=1, padx = 10, pady = 20)
+		Button(new_pw, text="Cancel", fg="black", command=lambda:new_pw.destroy()).grid(row=3, column=1, padx = 10, pady = 20)
 	
 	
-	def update(self):
-		pass
+	def update(self, master):
+		self.accounts.append(title.get())
+		print(self.accounts)
+		self.users.append(user.get())
+		print(self.users)
+		self.passwords.append(pw.get())
+		print(self.passwords)
 
-	
+		
+		for values in range(len(self.accounts)):
+			self.account_list["account"].append(self.accounts[values])
+			self.account_window.insert(END, self.accounts[values])
+		
+		master.destroy()				
+		
 		
 
 if __name__ == '__main__':
